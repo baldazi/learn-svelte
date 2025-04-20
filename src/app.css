@@ -3,7 +3,13 @@
 @plugin '@tailwindcss/typography';
 
 @layer base {
-    a {
+    a, button {
         @apply cursor-pointer;
+    }
+}
+
+@layer base {
+    li[aria-current="page"]{
+        @apply bg-teal-200/30 text-gray-200!;
     }
 }
