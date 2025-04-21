@@ -31,7 +31,7 @@
 
             <li aria-current={page.url.pathname === '/projects' ? 'page' : undefined}
                 class="text-lg text-teal-100 hover:bg-teal-800 p-1 rounded">
-                <a href="/projects">{m["navigation.calendar"]()}</a>
+                <a href="/projects">{m["navigation.projects"]()}</a>
             </li>
 
             <li aria-current={page.url.pathname === '/help' ? 'page' : undefined}

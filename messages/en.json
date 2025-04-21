@@ -7,5 +7,10 @@
 		"calendar":"Calendar",
 		"projects": "Projects",
 		"help": "Help"
+	},
+	"page": {
+		"home" : {
+			"welcome": "Welcome to Sveltekit !"
+		}
 	}
 }
