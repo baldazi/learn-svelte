@@ -1,4 +1,11 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from en!"
+	"hello_world": "Hello, {name} from en!",
+	"navigation": {
+		"home": "Home",
+		"task": "Task",
+		"calendar":"Calendar",
+		"projects": "Projects",
+		"help": "Help"
+	}
 }

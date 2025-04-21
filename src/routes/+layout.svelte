@@ -1,8 +1,6 @@
 <script lang="ts">
-	export const prerender = true;
 	import '../app.css';
 	import Header from '$components/Header.svelte';
-	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	let { children } = $props();
 </script>
 
