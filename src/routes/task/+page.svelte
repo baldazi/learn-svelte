@@ -7,10 +7,12 @@
     }
 
     getTodos()
-    
+
 </script>
 
 <div class="min-h-screen bg-blue-200">
     <pre>{JSON.stringify(data, null, 2)}</pre>
-
+    <form>
+        <input type="text" placeholder="task name">
+    </form>
 </div>
