@@ -2,6 +2,6 @@
     let {data} = $props()
 </script>
 
-<div>
-    {data.userId}
+<div class="rounded border m-2">
+    {data.title}
 </div>
