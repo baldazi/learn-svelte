@@ -1,7 +1,9 @@
 <script>
-    let {data} = $props()
+	import { PUBLIC_API_BASE_URL } from "$env/static/public";
+
+	let { data } = $props();
 </script>
 
-<div class="rounded border m-2">
-    {data.title}
-</div>
+<a class="m-2 rounded border" href={`/task/${data.id}`}>
+	{data.title}
+</a>

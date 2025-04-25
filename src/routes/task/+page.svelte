@@ -1,14 +1,8 @@
 <script lang="ts">
 	import TaskCard from "$components/TaskCard.svelte";
+    import type {PageProps} from "./$types";
 
-    let data:{userId: number; id: number; title:string; completed:boolean}[] = []
-
-    async function getTodos(){
-        const reponse = await fetch(`https://jsonplaceholder.typicode.com/todos/`)
-        data = await reponse.json()
-    }
-
-    getTodos()
+    let {data}:PageProps = $props()
 
 </script>
 
@@ -17,7 +11,7 @@
     <form>
         <input type="text" placeholder="task name">
     </form>
-    {#each data as d}
+    {#each data.list as d}
         <TaskCard data={d}/>
     {/each}
 </div>
