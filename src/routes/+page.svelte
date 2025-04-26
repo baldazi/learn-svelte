@@ -1,5 +1,4 @@
 <script>
-	import Head from "$components/Head.svelte";
 	import { m } from "$lib/paraglide/messages";
 
 </script>
