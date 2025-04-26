@@ -1,10 +1,10 @@
 import { PUBLIC_API_BASE_URL } from '$env/static/public';
-import type { PageLoad } from "./$types";
+import type { PageLoad } from "../../task/$types";
 
 export const prerender = true;
 
 export const load: PageLoad = async ({fetch}) => {
-    let reponse = await fetch(`${PUBLIC_API_BASE_URL}/todos/?limit=10`)
+    const reponse = await fetch(`${PUBLIC_API_BASE_URL}/todos/?limit=10`)
     const result = await reponse.json();
     return {list: result};
 }
