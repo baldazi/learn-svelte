@@ -2,8 +2,8 @@
     import { getLocale, locales, localizeHref, setLocale } from '$lib/paraglide/runtime';
     import {page} from '$app/state';
     import logo from '$assets/images/logo.svg';
-    import {UserRound} from '@lucide/svelte';
 	import { m } from '$lib/paraglide/messages.js';
+	import ThemeToggler from './themeToggler.svelte';
 
     let lang = getLocale();
 </script>
@@ -48,6 +48,6 @@
                 <option value={local}>{local.toUpperCase()}</option>
             {/each}
         </select>
-        <UserRound/>
+        <ThemeToggler/>
     </div>
 </header>
