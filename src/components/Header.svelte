@@ -8,7 +8,7 @@
     let lang = getLocale();
 </script>
 
-<header class="flex items-center justify-between bg-teal-600 shadow backdrop-blur-md p-0.5 px-2">
+<header class="flex items-center justify-between dark:bg-olive-600 bg-teal-600 shadow backdrop-blur-md p-0.5 px-2">
     <a class="flex items-center" href="/">
         <img src={logo} alt="SvelteKit" class="w-10 h-10 text-gray-500/60"/>
         <h1 class="text-xl font-semibold bg-linear-to-r from-gray-800 to-blue-600 text-transparent bg-clip-text">Task</h1>
