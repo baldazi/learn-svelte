@@ -1,54 +1,56 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-    import { SunMoon, Sun, Moon} from '@lucide/svelte';
+    import { SunMoon, Sun, Moon } from '@lucide/svelte';
 
     let hasTheme = $state(false);
-    let currentTheme = $state('light')
+    let currentTheme = $state('light');
 
-    $effect( () => {
-        if (browser){
+    $effect(() => {
+        if (browser) {
             hasTheme = 'theme' in localStorage;
-            currentTheme = hasTheme? localStorage.theme : 
-                window.matchMedia('(prefers-color-scheme:dark)').matches?
-                'dark':'light';
+            currentTheme = hasTheme 
+                ? localStorage.theme 
+                : window.matchMedia('(prefers-color-scheme: dark)').matches 
+                    ? 'dark' 
+                    : 'light';
             
-            //apply the theme
             document.documentElement.classList.toggle('dark', currentTheme === 'dark');
         }
-            
-    })
+    });
 
     const switchMode = () => {
-        if (hasTheme)
+        if (!browser) return;
+
+        if (!hasTheme) {
+            // Premier clic : passe en mode light (sauvegardé)
+            currentTheme = 'light';
+            localStorage.theme = 'light';
+            hasTheme = true;
+        } else if (currentTheme === 'light') {
+            // Deuxième clic : passe en mode dark
+            currentTheme = 'dark';
+            localStorage.theme = 'dark';
+        } else {
+            // Troisième clic : retour au système (supprime la préférence)
             localStorage.removeItem('theme');
-        else{
-            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            localStorage.theme = isDark ? 'dark' : 'light';
+            hasTheme = false;
+            currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches 
+                ? 'dark' 
+                : 'light';
         }
-        hasTheme = 'theme' in localStorage;      
-        currentTheme = hasTheme? localStorage.theme : 
-                window.matchMedia('(prefers-color-scheme:dark)').matches?
-                'dark':'light';
-            
-            //apply the theme
+
         document.documentElement.classList.toggle('dark', currentTheme === 'dark');
     }
 </script>
 
 <div class="flex gap-2">
-
-    <div>
-
-    </div>
-
     <button aria-label="theme-toggler" onclick={switchMode}>
-        {#if hasTheme}
-            <SunMoon/>
-        {:else if currentTheme === 'dark'}
-            <Moon/>
+        {#if !hasTheme}
+            <SunMoon/> <!-- Mode système -->
+        {:else if currentTheme === 'light'}
+            <Sun/> <!-- Mode clair forcé -->
         {:else}
-            <Sun/>
+            <Moon/> <!-- Mode sombre forcé -->
         {/if}
     </button>
-
 </div>
