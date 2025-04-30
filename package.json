@@ -39,6 +39,7 @@
 	},
 	"dependencies": {
 		"@inlang/paraglide-js": "^2.0.0",
-		"@lucide/svelte": "^0.501.0"
+		"@lucide/svelte": "^0.501.0",
+		"pdfjs-dist": "^5.2.133"
 	}
 }

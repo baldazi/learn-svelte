@@ -1,5 +1,5 @@
 import { PUBLIC_API_BASE_URL } from '$env/static/public';
-import type { PageLoad } from "../../task/$types";
+import type { PageLoad } from "./$types";
 
 export const prerender = true;
 
