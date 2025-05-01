@@ -12,6 +12,10 @@ export default defineConfig({
 			outdir: './src/lib/paraglide',
 			// strategy: ["url","cookie", "baseLocale"],
 			disableAsyncLocalStorage: true
-		})
-	]
+		}),
+	],
+
+	optimizeDeps: {
+		include: ['pdfjs-dist']
+	}
 });
