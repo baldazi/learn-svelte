@@ -1,38 +1,37 @@
+import type { Action } from "svelte/action";
 import * as PDFJS from "pdfjs-dist";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
 // Configure worker
 PDFJS.GlobalWorkerOptions.workerSrc =  pdfjsWorker;
 
-export default function loadPDF(node: HTMLCanvasElement, url: string) {
-	const render = async () => {
-		const loadingTask = PDFJS.getDocument(url);
-		const pdf = await loadingTask.promise;
-        console.log(pdf._pdfInfo);
-        
-		const page = await pdf.getPage(1);
+// number of page
+export const loadPDF: Action<HTMLCanvasElement, string> = (node, url)  => {
+  $effect(() => {
+    const render = async () => {
+      const loadingTask = PDFJS.getDocument(url);
+      const pdf = await loadingTask.promise;
+          console.log(pdf._pdfInfo);
+          
+      const page = await pdf.getPage(1);
 
-		const scale = 1;
-		const viewport = page.getViewport({ scale });
+      const scale = 1;
+      const viewport = page.getViewport({ scale });
 
-		const context = node.getContext("2d");
-		if (!context) return;
+      const context = node.getContext("2d");
+      if (!context) return;
 
-		node.height = viewport.height;
-		node.width = viewport.width;
+      node.height = viewport.height;
+      node.width = viewport.width;
 
-		const renderContext = {
-			canvasContext: context,
-			viewport,
-		};
+      const renderContext = {
+        canvasContext: context,
+        viewport,
+      };
 
-		await page.render(renderContext).promise;
-	};
+      await page.render(renderContext).promise;
+    };
 
-	render();
-
-	return {
-		destroy() {
-		}
-	};
+    render();
+  })
 }
