@@ -1,15 +1,26 @@
 import type { Action } from "svelte/action";
-import * as PDFJS from "pdfjs-dist";
+import * as pdfjsLib from "pdfjs-dist";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
 // Configure worker
-PDFJS.GlobalWorkerOptions.workerSrc =  pdfjsWorker;
+pdfjsLib.GlobalWorkerOptions.workerSrc =  pdfjsWorker;
+
+export type PDFDocumentProxy = pdfjsLib.PDFDocumentProxy
+export type PDFPageProxy = pdfjsLib.PDFPageProxy
+
+export const loadPDF = async (url: string):Promise<PDFDocumentProxy> =>{
+	return pdfjsLib.getDocument(url).promise
+}
+
+export const getPage = async (doc: PDFDocumentProxy, page:number):Promise<PDFPageProxy> => {
+	return doc.getPage(page)
+}
 
 // number of page
-export const loadPDF: Action<HTMLCanvasElement, string> = (node, url)  => {
+export const renderPDF: Action<HTMLCanvasElement, string | undefined> = (node, url)  => {
   
 	const render = async () => {
-		const loadingTask = PDFJS.getDocument(url);
+		const loadingTask = pdfjsLib.getDocument(url);
 		const pdf = await loadingTask.promise;
         console.log(pdf._pdfInfo);
         

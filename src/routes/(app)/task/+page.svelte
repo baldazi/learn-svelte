@@ -1,6 +1,6 @@
 <script lang="ts">
 	import TaskCard from "$components/TaskCard.svelte";
-    import type {PageProps} from "../../task/$types";
+    import type {PageProps} from "./$types";
 
     let {data}:PageProps = $props()
 

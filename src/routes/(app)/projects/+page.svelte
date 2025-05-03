@@ -1,13 +1,55 @@
 <script lang="ts">
-	import {loadPDF} from "$lib/pdfjs";
-	import { FileUp } from "@lucide/svelte";
+	import {loadPDF, renderPDF, type PDFDocumentProxy} from "$lib/pdfjs";
+	import { ChevronLeft, ChevronRight, FileUp } from "@lucide/svelte";
+	import type { Action } from "svelte/action";
 
-	let files = $state(null)
-	let fileUrl = $derived(files ?? URL.createObjectURL(files[0]))
+	let files: FileList | null = $state(null)
 
+	let pdfDocument: PDFDocumentProxy|null = $state(null)
+
+	let indexPage = $state(1)
+	let totalPage = $derived(pdfDocument?.numPages)
+
+	const renderPDFAction: Action<HTMLCanvasElement> = (node)  => {
+		const render = async () => {
+			if (!pdfDocument) return
+			const page = await pdfDocument.getPage(indexPage);
+
+			const scale = 1;
+			const viewport = page.getViewport({ scale });
+
+			const context = node.getContext("2d");
+			if (!context) return;
+
+			node.height = viewport.height;
+			node.width = viewport.width;
+
+			const renderContext = {
+				canvasContext: context,
+				viewport,
+			};
+
+			await page.render(renderContext).promise;
+		};
+
+		render();
+	}
+	
 	$effect(()=>{
+		const loadPDFDocument = async () =>{
+		if (!files || files.length === 0)
+			return
+		const file :File| null = files.item(0)
+
+		if (file?.type === "application/pdf")
+			pdfDocument = await loadPDF(URL.createObjectURL(file))
+		}
+
+		loadPDFDocument()
+
 		console.log(files)
-		console.log("url",fileUrl)
+		console.log("url",pdfDocument)
+		console.log("pages", totalPage)
 	})
 </script>
 
@@ -35,8 +77,18 @@
 	</label>
 </div>
 
-
-<div class="p-2">
-<canvas use:loadPDF={ fileUrl } class="ring-2 ring-green-300/60 mx-auto"></canvas>
-</div>
+{#if files}
+	<div class="p-2">
+		<div class="flex gap-2 justify-center p-3">
+			<button aria-label="preview"><ChevronLeft/></button>
+			<div class="bg-gray-200">
+				<input type="text" bind:value={indexPage} class="">
+				<span class="p-5">{totalPage}</span>
+			</div>
+			
+			<button aria-label="preview"><ChevronRight/></button>
+		</div>
+		<canvas use:renderPDFAction class="ring-2 ring-green-300/60 mx-auto"></canvas>
+	</div>
+{/if}
 
