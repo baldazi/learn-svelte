@@ -41,3 +41,4 @@ Ref
 |feature|url|
 |-------|---|
 |upload-file|https://svelte.dev/playground/file-inputs?version=5.28.2|
+|disable input[type=number] arrow|https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp|

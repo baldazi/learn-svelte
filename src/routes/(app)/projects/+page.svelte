@@ -1,7 +1,8 @@
 <script lang="ts">
 	import {loadPDF, renderPDF, type PDFDocumentProxy} from "$lib/pdfjs";
 	import { ChevronLeft, ChevronRight, FileUp } from "@lucide/svelte";
-	import type { Action } from "svelte/action";
+	import { untrack } from "svelte";
+	import {slide} from "svelte/transition";
 
 	let files: FileList | null = $state(null)
 
@@ -10,30 +11,6 @@
 	let indexPage = $state(1)
 	let totalPage = $derived(pdfDocument?.numPages)
 
-	const renderPDFAction: Action<HTMLCanvasElement> = (node)  => {
-		const render = async () => {
-			if (!pdfDocument) return
-			const page = await pdfDocument.getPage(indexPage);
-
-			const scale = 1;
-			const viewport = page.getViewport({ scale });
-
-			const context = node.getContext("2d");
-			if (!context) return;
-
-			node.height = viewport.height;
-			node.width = viewport.width;
-
-			const renderContext = {
-				canvasContext: context,
-				viewport,
-			};
-
-			await page.render(renderContext).promise;
-		};
-
-		render();
-	}
 	
 	$effect(()=>{
 		const loadPDFDocument = async () =>{
@@ -48,9 +25,38 @@
 		loadPDFDocument()
 
 		console.log(files)
-		console.log("url",pdfDocument)
-		console.log("pages", totalPage)
+		console.log("url",untrack(()=>pdfDocument))
+		console.log("pages", untrack(()=>totalPage))
 	})
+
+	let canvas:HTMLCanvasElement
+
+	$effect(()=>{
+		const render = async () => {
+			if (!pdfDocument) return
+			const page = await pdfDocument.getPage(indexPage);
+
+			const scale = 1.2;
+			const viewport = page.getViewport({ scale });
+
+			const context = canvas.getContext("2d");
+			if (!context) return;
+
+			canvas.height = viewport.height;
+			canvas.width = viewport.width;
+
+			const renderContext = {
+				canvasContext: context,
+				viewport,
+			};
+
+			await page.render(renderContext).promise;
+		};
+
+		render();
+
+	})
+	
 </script>
 
 <div class="flex flex-col items-center gap-4">
@@ -80,15 +86,15 @@
 {#if files}
 	<div class="p-2">
 		<div class="flex gap-2 justify-center p-3">
-			<button aria-label="preview"><ChevronLeft/></button>
+			<button aria-label="preview" disabled={ indexPage === 1} onclick={()=>indexPage--}><ChevronLeft/></button>
 			<div class="bg-gray-200">
-				<input type="text" bind:value={indexPage} class="">
+				<input type="number" bind:value={indexPage} class="" min="1" max={totalPage}>
 				<span class="p-5">{totalPage}</span>
 			</div>
 			
-			<button aria-label="preview"><ChevronRight/></button>
+			<button aria-label="preview" disabled={ indexPage === totalPage} onclick={()=>indexPage++}><ChevronRight/></button>
 		</div>
-		<canvas use:renderPDFAction class="ring-2 ring-green-300/60 mx-auto"></canvas>
+		<canvas bind:this={canvas} class="ring-2 ring-green-300/60 mx-auto" in:slide></canvas>
 	</div>
 {/if}
 
