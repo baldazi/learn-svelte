@@ -1,6 +1,6 @@
 <script lang="ts">
-	import {loadPDF, renderPDF, type PDFDocumentProxy} from "$lib/pdfjs";
-	import { ChevronLeft, ChevronRight, FileUp } from "@lucide/svelte";
+	import {loadPDF, type PDFDocumentProxy} from "$lib/pdfjs";
+	import { ChevronLeft, ChevronRight, Download, FileUp, ZoomIn, ZoomOut } from "@lucide/svelte";
 	import { untrack } from "svelte";
 	import {slide} from "svelte/transition";
 
@@ -10,6 +10,7 @@
 
 	let indexPage = $state(1)
 	let totalPage = $derived(pdfDocument?.numPages)
+	let scale = $state(1.0)
 
 	
 	$effect(()=>{
@@ -20,11 +21,13 @@
 
 		if (file?.type === "application/pdf")
 			pdfDocument = await loadPDF(URL.createObjectURL(file))
+			scale = 1.0
 		}
 
 		loadPDFDocument()
 
 		console.log(files)
+		
 		console.log("url",untrack(()=>pdfDocument))
 		console.log("pages", untrack(()=>totalPage))
 	})
@@ -35,9 +38,7 @@
 		const render = async () => {
 			if (!pdfDocument) return
 			const page = await pdfDocument.getPage(indexPage);
-
-			const scale = 1.2;
-			const viewport = page.getViewport({ scale });
+			const viewport = page.getViewport({ scale: scale < 2? scale: 2 });
 
 			const context = canvas.getContext("2d");
 			if (!context) return;
@@ -51,8 +52,11 @@
 			};
 
 			await page.render(renderContext).promise;
+
+			
 		};
 
+		console.log(scale)
 		render();
 
 	})
@@ -85,16 +89,30 @@
 
 {#if files}
 	<div class="p-2">
-		<div class="flex gap-2 justify-center p-3">
-			<button aria-label="preview" disabled={ indexPage === 1} onclick={()=>indexPage--}><ChevronLeft/></button>
-			<div class="bg-gray-200">
-				<input type="number" bind:value={indexPage} class="" min="1" max={totalPage}>
-				<span class="p-5">{totalPage}</span>
+		<div class="flex justify-center items-center">
+			<div class="flex gap">
+				<button aria-label="zoom-out" onclick={()=>scale = scale - scale * 0.2}
+					disabled={scale<=0.8}><ZoomOut/></button>
+				<span>{Math.floor(scale*100)}%</span>
+				<button aria-label="zoom-in" onclick={()=>scale = scale * 1.2} disabled={scale>=2}><ZoomIn/></button>
 			</div>
-			
-			<button aria-label="preview" disabled={ indexPage === totalPage} onclick={()=>indexPage++}><ChevronRight/></button>
+			<div class="flex gap-2 justify-center p-3">
+				<button aria-label="preview" disabled={ indexPage === 1} onclick={()=>indexPage--}
+					class="disabled:text-gray-800/50 disabled:cursor-not-allowed"><ChevronLeft/></button>
+				<div class="bg-gray-200">
+					<input type="number" bind:value={indexPage} class="" min="1" max={totalPage}>
+					<span class="p-5">{totalPage}</span>
+				</div>
+				
+				<button aria-label="preview" disabled={ indexPage === totalPage} onclick={()=>indexPage++}
+					class="disabled:text-gray-800/50 disabled:cursor-not-allowed"><ChevronRight/></button>
+			</div>
+
+			<a aria-label="download" href={URL.createObjectURL(files.item(0))} download="simple.pdf"><Download/></a>
+
 		</div>
 		<canvas bind:this={canvas} class="ring-2 ring-green-300/60 mx-auto" in:slide></canvas>
 	</div>
 {/if}
+
 

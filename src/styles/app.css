@@ -15,15 +15,19 @@ input[type=number] {
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant disabled (&:where([disabled], [disabled] *));
 
 @layer base {
     a, button {
         @apply cursor-pointer;
     }
-}
 
-@layer base {
     li[aria-current="page"]{
         @apply bg-teal-200/30 text-gray-200!;
+    }
+
+
+		button[disabled]{
+      @apply text-gray-800/50 cursor-not-allowed;
     }
 }
