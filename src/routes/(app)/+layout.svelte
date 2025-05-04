@@ -7,9 +7,9 @@
 
 <Header/>
 
-<main>
-	{@render children()}
-</main>
+
+{@render children()}
+
 
 <footer class="text-center bg-teal-600/10">
 	&copy; 2025 
