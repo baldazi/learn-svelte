@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {loadPDF, type PDFDocumentProxy} from "$lib/pdfjs";
+	import {loadPDF, renderTextLayer, type PDFDocumentProxy} from "$lib/pdfjs";
 	import { ChevronLeft, ChevronRight, Download, FileUp, ZoomIn, ZoomOut } from "@lucide/svelte";
 	import { untrack } from "svelte";
 	import {slide} from "svelte/transition";
@@ -32,28 +32,35 @@
 		console.log("pages", untrack(()=>totalPage))
 	})
 
-	let canvas:HTMLCanvasElement
+	let pdfCanvas:HTMLCanvasElement
+	let pdfTextLayer:HTMLDivElement
 
 	$effect(()=>{
 		const render = async () => {
 			if (!pdfDocument) return
 			const page = await pdfDocument.getPage(indexPage);
 			const viewport = page.getViewport({ scale: scale < 2? scale: 2 });
-
-			const context = canvas.getContext("2d");
+			const context = pdfCanvas.getContext("2d");
 			if (!context) return;
 
-			canvas.height = viewport.height;
-			canvas.width = viewport.width;
+			pdfCanvas.height = viewport.height;
 
+			pdfCanvas.width = viewport.width;
 			const renderContext = {
 				canvasContext: context,
 				viewport,
 			};
 
+			// pdfCanvas.offsetHeight
+			renderTextLayer(page, pdfTextLayer, viewport)
+			Object.assign(pdfTextLayer.style,
+			{
+				left:`${pdfCanvas.offsetLeft}px`,
+				top: `${pdfCanvas.offsetTop}px`, 
+				width: `${pdfCanvas.width}px`,
+				height: `${pdfCanvas.height}px`
+			});
 			await page.render(renderContext).promise;
-
-			
 		};
 
 		console.log(scale)
@@ -101,7 +108,7 @@
 					class="disabled:text-gray-800/50 disabled:cursor-not-allowed"><ChevronLeft/></button>
 				<div class="bg-gray-200">
 					<input type="number" bind:value={indexPage} class="" min="1" max={totalPage}>
-					<span class="p-5">{totalPage}</span>
+					<span class="p-5">/{totalPage}</span>
 				</div>
 				
 				<button aria-label="preview" disabled={ indexPage === totalPage} onclick={()=>indexPage++}
@@ -111,8 +118,54 @@
 			<a aria-label="download" href={URL.createObjectURL(files.item(0))} download="simple.pdf"><Download/></a>
 
 		</div>
-		<canvas bind:this={canvas} class="ring-2 ring-green-300/60 mx-auto" in:slide></canvas>
+
+		<div class="pdf__layers">
+			<div class="pdf__canvas-layer">
+				<canvas bind:this={pdfCanvas} class="ring-2 ring-green-300/60 mx-auto" in:slide></canvas>
+			</div>
+			<div bind:this={pdfTextLayer} class="pdf__text-layer"></div>
+		</div>
+
 	</div>
 {/if}
+
+<style>
+	.pdf__layers {
+	  position: relative;
+	}
+	
+	.pdf__layers .pdf__canvas-layer {
+	  position: absolute;
+	  inset: 0;
+	}
+	
+	.pdf__layers .pdf__text-layer {
+	  position: absolute;
+	  inset: 0;
+	  opacity: 1;
+	  line-height: 1;
+	  z-index: 5; /* Assure que le texte est sélectionnable au-dessus */
+	
+	  /* Sélection d'un <br> */
+	  br::selection {
+		color: transparent;
+	  }
+	}
+	
+	.pdf__layers .pdf__text-layer span {
+	  color: transparent;
+	  cursor: text;
+	  position: absolute;
+	  transform-origin: 0% 0%;
+	  white-space: pre;
+	}
+	
+	/* Sélection d'un <span> dans la couche texte */
+	.pdf__layers .pdf__text-layer span::selection {
+	  background-color: black;
+	  color: yellow;
+	}
+	</style>
+	
 
 

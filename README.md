@@ -42,3 +42,5 @@ Ref
 |-------|---|
 |upload-file|https://svelte.dev/playground/file-inputs?version=5.28.2|
 |disable input[type=number] arrow|https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp|
+|pdf ui|https://www.vue-pdf-viewer.dev/|
+|pdf text-layer|https://medium.com/@mxgel/enable-text-selection-on-pdf-js-32fcfe845f4b, https://usefulangle.com/post/90/javascript-pdfjs-enable-text-layer|

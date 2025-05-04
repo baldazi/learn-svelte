@@ -31,3 +31,14 @@ input[type=number] {
       @apply text-gray-800/50 cursor-not-allowed;
     }
 }
+
+@layer components{
+  
+
+  #pdf_text-layer > span {
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+   
+  }
+}
