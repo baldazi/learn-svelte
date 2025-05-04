@@ -33,12 +33,49 @@ input[type=number] {
 }
 
 @layer components{
-  
+  .pdf__layers {
+	  @apply relative;
+	}
 
-  #pdf_text-layer > span {
-    position: absolute;
-    white-space: pre;
-    cursor: text;
-   
+  .pdf__layers .pdf__text-layer {
+    @apply absolute inset-[0] opacity-[1] z-[5];
   }
+	
+  .pdf__layers .pdf__text-layer br::selection {
+    @apply text-transparent;
+  }
+
+  .pdf__layers .pdf__text-layer span {
+	  @apply text-transparent cursor-text absolute origin-[0%_0%] whitespace-pre;
+	}
+
+  .pdf__layers .pdf__text-layer span::selection {
+	  @apply bg-gray-900 text-yellow-200;
+	}
+	
+	.pdf__layerss .pdf__text-layer {
+	  position: absolute;
+	  inset: 0;
+	  line-height: 1;
+	  z-index: 5; /* Assure que le texte est sélectionnable au-dessus */
+	
+	  /* Sélection d'un <br> */
+	  br::selection {
+		color: transparent;
+	  }
+	}
+
+	.pdf__layerss .pdf__text-layer span {
+	  color: transparent;
+	  cursor: text;
+	  position: absolute;
+	  transform-origin: 0% 0%;
+	  white-space: pre;
+	}
+	
+	/* Sélection d'un <span> dans la couche texte */
+	.pdf__layerss .pdf__text-layer span::selection {
+	  background-color: black;
+	  color: yellow;
+	}
 }

@@ -1,6 +1,5 @@
 import * as pdfjsLib from "pdfjs-dist";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
-
 // Configure worker
 pdfjsLib.GlobalWorkerOptions.workerSrc =  pdfjsWorker;
 
@@ -18,7 +17,7 @@ export const getPage = async (doc: PDFDocumentProxy, page:number):Promise<PDFPag
 
 export const renderTextLayer = (pageProxy: PDFPageProxy, textLayerContainer: HTMLDivElement, viewport: PDFPageViewport) => {
 	const { scale } = viewport;
-	textLayerContainer.style.setProperty("--scale-factor", `${scale}`);
+	textLayerContainer.style.setProperty("--scale-factor", scale.toString());
 	textLayerContainer.style.setProperty("--total-scale-factor", `${scale}`);
 	pageProxy.getTextContent().then((content) => {
 		textLayerContainer.innerText = ""

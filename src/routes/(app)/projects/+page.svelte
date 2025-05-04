@@ -3,6 +3,7 @@
 	import { ChevronLeft, ChevronRight, Download, FileUp, ZoomIn, ZoomOut } from "@lucide/svelte";
 	import { untrack } from "svelte";
 	import {slide} from "svelte/transition";
+	// import "pdfjs-dist/web/pdf_viewer.css";
 
 	let files: FileList | null = $state(null)
 
@@ -53,13 +54,13 @@
 
 			// pdfCanvas.offsetHeight
 			renderTextLayer(page, pdfTextLayer, viewport)
-			Object.assign(pdfTextLayer.style,
+			/* Object.assign(pdfTextLayer.style,
 			{
 				left:`${pdfCanvas.offsetLeft}px`,
 				top: `${pdfCanvas.offsetTop}px`, 
 				width: `${pdfCanvas.width}px`,
 				height: `${pdfCanvas.height}px`
-			});
+			}); */
 			await page.render(renderContext).promise;
 		};
 
@@ -128,44 +129,6 @@
 
 	</div>
 {/if}
-
-<style>
-	.pdf__layers {
-	  position: relative;
-	}
-	
-	.pdf__layers .pdf__canvas-layer {
-	  position: absolute;
-	  inset: 0;
-	}
-	
-	.pdf__layers .pdf__text-layer {
-	  position: absolute;
-	  inset: 0;
-	  opacity: 1;
-	  line-height: 1;
-	  z-index: 5; /* Assure que le texte est sélectionnable au-dessus */
-	
-	  /* Sélection d'un <br> */
-	  br::selection {
-		color: transparent;
-	  }
-	}
-	
-	.pdf__layers .pdf__text-layer span {
-	  color: transparent;
-	  cursor: text;
-	  position: absolute;
-	  transform-origin: 0% 0%;
-	  white-space: pre;
-	}
-	
-	/* Sélection d'un <span> dans la couche texte */
-	.pdf__layers .pdf__text-layer span::selection {
-	  background-color: black;
-	  color: yellow;
-	}
-	</style>
 	
 
 
