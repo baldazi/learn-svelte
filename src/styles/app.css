@@ -38,7 +38,7 @@ input[type=number] {
 	}
 
   .pdf__layers .pdf__text-layer {
-    @apply absolute inset-[0] opacity-[1] z-[5];
+    @apply absolute inset-[0] opacity-[1] z-[5] overflow-hidden;
   }
 	
   .pdf__layers .pdf__text-layer br::selection {
