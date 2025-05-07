@@ -6,6 +6,7 @@
 	import {undo, redo, history} from "prosemirror-history"
 	import {keymap} from "prosemirror-keymap"
 	import { Bold, Redo, Undo } from "@lucide/svelte";
+	import ContextMenu from "$components/contextMenu.svelte";
 
 	let editorDiv: HTMLDivElement;
 	let view: EditorView;
@@ -37,6 +38,7 @@
 	}
 </script>
 
+<ContextMenu/>
 <div class="flex flex-col">
 	<div class="flex border">
 		<button onclick={undo} aria-label="undo"><Undo/></button>
@@ -45,4 +47,5 @@
 	<button onclick={toggleBold} aria-label="bold"><Bold/></button>
 </div>
 <div bind:this={editorDiv} class="border p-2 mt-2 h-full"></div>
+
 
