@@ -41,6 +41,7 @@
 	"dependencies": {
 		"@inlang/paraglide-js": "^2.0.0",
 		"@lucide/svelte": "^0.501.0",
+		"konva": "^9.3.20",
 		"pdfjs-dist": "^5.2.133",
 		"prosemirror-commands": "^1.7.1",
 		"prosemirror-history": "^1.4.1",
