@@ -1,13 +1,14 @@
 <script lang="ts">
     import Konva from 'konva';
 
-    let containerDiv: HTMLDivElement
+    let containerDiv: HTMLDivElement;
 
     $effect(() => {
+        let {width, height} = containerDiv.getBoundingClientRect();
         const stage = new Konva.Stage({
             container: containerDiv,
-            width: window.innerWidth,
-            height: window.innerHeight,
+            width,
+            height,
         });
 
         const layer = new Konva.Layer();
@@ -38,6 +39,6 @@
 </script>
 
 <div class="flex flex-wrap">
-    <div bind:this={containerDiv} class="w-[72mm] border rounded"></div>
+    <div bind:this={containerDiv} class="size-[72mm] border rounded"></div>
 </div>
 
