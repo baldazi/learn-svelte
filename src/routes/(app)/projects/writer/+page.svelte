@@ -5,7 +5,7 @@
 	import { toggleMark, baseKeymap } from "prosemirror-commands";
 	import {undo, redo, history} from "prosemirror-history"
 	import {keymap} from "prosemirror-keymap"
-	import { Bold, Redo, Undo } from "@lucide/svelte";
+	import { Bold, Indent, Italic, Outdent, Redo, Subscript, Superscript, Text, Underline, Undo } from "@lucide/svelte";
 	import ContextMenu from "$components/contextMenu.svelte";
 
 	let editorDiv: HTMLDivElement;
@@ -39,13 +39,35 @@
 </script>
 
 <ContextMenu/>
-<div class="flex flex-col">
-	<div class="flex border">
-		<button onclick={undo} aria-label="undo"><Undo/></button>
-		<button onclick={redo} aria-label="redo"><Redo/></button>
+
+<div class="flex gap-1 shadow-2xl p-2 items-center h-12 border rounded mx-1">
+	<div class="flex gap-1.5">
+		<button onclick={undo} title="undo"><Undo/></button>
+		<button onclick={redo} title="redo"><Redo/></button>
 	</div>
-	<button onclick={toggleBold} aria-label="bold"><Bold/></button>
+	<div class="border-r w-1 bg-dark-200 h-full"></div>
+	<div class="flex gap-2.5">
+		<button onclick={toggleBold} aria-label="bold"><Bold/></button>
+		<button onclick={toggleBold} aria-label="underline"><Underline/></button>
+		<button onclick={toggleBold} aria-label="italic"><Italic/></button>
+	</div>
+	<div class="border-r w-1 bg-dark-200 h-full"></div>
+	<div class="flex gap-2.5">
+		<button onclick={toggleBold} aria-label="bold"><Subscript/></button>
+		<button onclick={toggleBold} aria-label="underline"><Superscript/></button>
+		<button onclick={toggleBold} aria-label="italic"><Text/></button>
+	</div>
+
+	<div class="flex gap-2.5">
+		<button onclick={toggleBold} aria-label="bold"><Indent/></button>
+		<button onclick={toggleBold} aria-label="bold"><Outdent/></button>
+	</div>
 </div>
-<div bind:this={editorDiv} class="border p-2 mt-2 h-full"></div>
+<div bind:this={editorDiv} class="mx-auto border-2 p-2 mt-2 w-[210mm] h-[297mm] mx-1 border-gray-500 shadow-2xl rounded-xs"></div>
 
 
+<style>
+	.ProseMirror:focus {
+    	outline: none;
+	}
+</style>
