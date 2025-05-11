@@ -24,7 +24,7 @@
 
 		view = new EditorView(editorDiv, {
 			state,
-			dispatchTransaction(transaction) {
+			dispatchTransaction:(transaction) => {
 				console.log("Document size went from", transaction.before.content.size,
 							"to", transaction.doc.content.size)
 				let newState = view.state.apply(transaction)
@@ -35,6 +35,10 @@
 
 	function toggleBold() {
 		toggleMark(basicSchema.marks.strong)(view.state, view.dispatch);
+	}
+
+	function toggleItalic() {
+		toggleMark(basicSchema.marks.em)(view.state, view.dispatch);
 	}
 </script>
 
@@ -49,7 +53,7 @@
 	<div class="flex gap-2.5">
 		<button onclick={toggleBold} aria-label="bold"><Bold/></button>
 		<button onclick={toggleBold} aria-label="underline"><Underline/></button>
-		<button onclick={toggleBold} aria-label="italic"><Italic/></button>
+		<button onclick={toggleItalic} aria-label="italic"><Italic/></button>
 	</div>
 	<div class="border-r w-1 bg-dark-200 h-full"></div>
 	<div class="flex gap-2.5">
