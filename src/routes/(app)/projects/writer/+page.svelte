@@ -67,11 +67,12 @@
 		<button onclick={toggleBold} aria-label="bold"><Outdent/></button>
 	</div>
 </div>
-<div bind:this={editorDiv} class="mx-auto border-2 p-2 mt-2 w-[210mm] h-[297mm] mx-1 border-gray-500 shadow-2xl rounded-xs"></div>
+<div bind:this={editorDiv}  onclick={()=>view.dom.focus()}
+	class="mx-auto border-2 p-2 mt-2 w-[210mm] h-[297mm] mx-1 border-gray-500 shadow-2xl rounded-xs"></div>
 
 
 <style>
-	.ProseMirror:focus {
+	.ProseMirror-focused .ProseMirror-gapcursor{
     	outline: none;
 	}
 </style>
