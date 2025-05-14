@@ -7,7 +7,19 @@
 	import {keymap} from "prosemirror-keymap"
 	import { Bold, Indent, Italic, Outdent, Redo, Subscript, Superscript, Text, Underline, Undo } from "@lucide/svelte";
 	import ContextMenu from "$components/contextMenu.svelte";
+	import tippy from 'tippy.js';
+	import type { Action } from "svelte/action";
 
+	const tooltip: Action = (node , params) => {
+		  $effect(() => {
+			// setup goes here
+			
+			return () => {
+				// teardown goes here
+				tippy(node, params);
+			};
+		});
+	}
 	let editorDiv: HTMLDivElement;
 	let view: EditorView;
 
@@ -46,7 +58,7 @@
 
 <div class="flex gap-1 shadow-2xl p-2 items-center h-12 border rounded mx-1">
 	<div class="flex gap-1.5">
-		<button onclick={undo} title="undo"><Undo/></button>
+		<button onclick={undo} use:tooltip={{content :"undo"}}><Undo/></button>
 		<button onclick={redo} title="redo"><Redo/></button>
 	</div>
 	<div class="border-r w-1 bg-dark-200 h-full"></div>
