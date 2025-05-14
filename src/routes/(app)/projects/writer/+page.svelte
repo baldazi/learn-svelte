@@ -8,21 +8,16 @@
 	import { Bold, Indent, Italic, Outdent, Redo, Subscript, Superscript, Text, Underline, Undo } from "@lucide/svelte";
 	import ContextMenu from "$components/contextMenu.svelte";
 	import tippy from 'tippy.js';
+	import 'tippy.js/dist/tippy.css'; 
 	import type { Action } from "svelte/action";
 
 	const tooltip: Action = (node , params) => {
 		  $effect(() => {
-			// setup goes here
-			
-			return () => {
-				// teardown goes here
-				tippy(node, params);
-			};
+			tippy(node, params);
 		});
 	}
 	let editorDiv: HTMLDivElement;
 	let view: EditorView;
-
 	$effect(() => {
 		const state = EditorState.create({
 			schema: basicSchema,
