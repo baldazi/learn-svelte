@@ -11,7 +11,7 @@
 	import 'tippy.js/dist/tippy.css'; 
 	import type { Action } from "svelte/action";
 
-	const tooltip: Action = (node , params) => {
+	const tooltip: Action<HTMLElement, Object> = (node , params) => {
 		  $effect(() => {
 			tippy(node, params);
 		});
@@ -49,12 +49,13 @@
 	}
 </script>
 
+
 <ContextMenu/>
 
 <div class="flex gap-1 shadow-2xl p-2 items-center h-12 border rounded mx-1">
 	<div class="flex gap-1.5">
-		<button onclick={undo} use:tooltip={{content :"undo"}}><Undo/></button>
-		<button onclick={redo} title="redo"><Redo/></button>
+		<button onclick={undo} use:tooltip={{content :"undo"}} aria-label="undo"><Undo/></button>
+		<button onclick={redo} use:tooltip={{content :"redo"}}><Redo/></button>
 	</div>
 	<div class="border-r w-1 bg-dark-200 h-full"></div>
 	<div class="flex gap-2.5">
