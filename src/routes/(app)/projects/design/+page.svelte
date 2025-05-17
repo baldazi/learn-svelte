@@ -1,7 +1,12 @@
 <script lang="ts">
+	import ctxMenuAction from '$lib/actions/contextMenu.svelte';
     import Konva from 'konva';
 
     let containerDiv: HTMLDivElement;
+    const ctxMenu = $state({width:0, height:0, x: 0, y: 0, isShow: false});
+
+
+    $inspect(ctxMenu)
 
     $effect(() => {
         let {width, height} = containerDiv.getBoundingClientRect();
@@ -34,11 +39,19 @@
         layer.add(circle);
     })
     
-
-    
 </script>
 
-<div class="flex flex-wrap">
-    <div bind:this={containerDiv} class="size-[72mm] border rounded"></div>
-</div>
+<div class="flex flex-wrap relative">
+    <div bind:this={containerDiv} class="size-[72mm] border rounded" use:ctxMenuAction={ctxMenu}></div>
 
+    {#if ctxMenu.isShow}
+    <nav class="absolute" bind:offsetHeight={ctxMenu.height} bind:offsetWidth={ctxMenu.width}
+    style="top:{ctxMenu.y}px; left:{ctxMenu.x}px">
+        <ul class="rounded shadow p-2 flex flex-col gap-2">
+            <li>Show {ctxMenu.x}</li>
+            <li>Edit {ctxMenu.y}</li>
+            <li>Delete</li>
+        </ul>
+    </nav>
+    {/if}
+</div>
