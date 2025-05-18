@@ -11,15 +11,16 @@ interface ParamsType {
 const ctxMenuAction: Action<HTMLElement, ParamsType> = (node, params) =>{
     $effect(()=>{
 
-        document.onclick = () => {
+        document.onmousedown = () => {
             params.isShow = false
         }
 
         node.oncontextmenu = (e) => {
             e.preventDefault()
-            console.log({xx:e.clientX, xxx: e.pageX, yy:e.clientY, yyy: e.pageY});
+            console.log({xx:e.clientX, ll: node.offsetLeft, yy:e.clientY, tt: node.offsetTop});
+            const rect = node.getBoundingClientRect();
             
-            Object.assign(params, {x: e.clientX, y: e.clientY})
+            Object.assign(params, {x: e.clientX - rect.left, y: e.clientY-rect.top})
 
             if (node.offsetHeight -  params.y < params.height)
                 params.y = params.y - params.height

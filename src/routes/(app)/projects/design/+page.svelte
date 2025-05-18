@@ -48,8 +48,8 @@
     <nav class="absolute" bind:offsetHeight={ctxMenu.height} bind:offsetWidth={ctxMenu.width}
     style="top:{ctxMenu.y}px; left:{ctxMenu.x}px">
         <ul class="rounded shadow p-2 flex flex-col gap-2">
-            <li>Show {ctxMenu.x}</li>
-            <li>Edit {ctxMenu.y}</li>
+            <li>Show</li>
+            <li>Edit</li>
             <li>Delete</li>
         </ul>
     </nav>

@@ -54,13 +54,14 @@
 
 			// pdfCanvas.offsetHeight
 			renderTextLayer(page, pdfTextLayer, viewport)
-			/* Object.assign(pdfTextLayer.style,
+			const rect = pdfCanvas.getBoundingClientRect()
+			Object.assign(pdfTextLayer.style,
 			{
-				left:`${pdfCanvas.offsetLeft}px`,
+				left:`${pdfCanvas.offsetLeft-rect.left}px`,
 				top: `${pdfCanvas.offsetTop}px`, 
 				width: `${pdfCanvas.width}px`,
 				height: `${pdfCanvas.height}px`
-			}); */
+			});
 			await page.render(renderContext).promise;
 		};
 
