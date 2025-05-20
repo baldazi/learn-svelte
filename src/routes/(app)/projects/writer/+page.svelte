@@ -9,7 +9,6 @@
 	import tippy from 'tippy.js';
 	import 'tippy.js/dist/tippy.css'; 
 	import type { Action } from "svelte/action";
-	import { Button } from "$lib/components/ui/button";
 	import * as Menubar from "$lib/components/ui/menubar";
 
 	const tooltip: Action<HTMLElement, Object> = (node , params) => {
@@ -140,9 +139,6 @@
 	</Menubar.Menu>
   </Menubar.Root>
 
-<div>
-	<Button>Click me</Button>
-</div>
 <div class="flex gap-1 shadow-2xl p-2 items-center h-12 border rounded mx-1">
 	
 	<div class="flex gap-1.5">
@@ -168,11 +164,11 @@
 	</div>
 </div>
 <div bind:this={editorDiv}  onclick={()=>view.dom.focus()}
-	class="mx-auto border-2 p-2 mt-2 w-[210mm] h-[297mm] mx-1 border-gray-500 shadow-2xl rounded-xs"></div>
+	class="mx-auto border-2 p-2 mt-2 w-[210mm] h-[297mm] mx-1 border-gray-500 shadow-2xl rounded-xs mb-2.5"></div>
 
 
 <div class="fixed bg-gray-50 border border-gray-500/20 bottom-0 z-10 inset-x-0">
-rrrrrrrrrrrrrrrrrrrrrrrrrr
+
 </div>
 
 
