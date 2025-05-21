@@ -49,3 +49,5 @@ You can preview the production build with `npm run preview`.
 |disable input[type=number] arrow|https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp|
 |pdf ui|https://www.vue-pdf-viewer.dev/|
 |pdf text-layer|https://medium.com/@mxgel/enable-text-selection-on-pdf-js-32fcfe845f4b, https://usefulangle.com/post/90/javascript-pdfjs-enable-text-layer|
+
+|tipy|https://atomiks.github.io/tippyjs/|
