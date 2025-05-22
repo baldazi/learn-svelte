@@ -79,3 +79,9 @@ input[type=number] {
 	  color: yellow;
 	}
 }
+
+@layer utilities{
+  .ProseMirror-focused{
+    @apply outline-none;
+  }
+}
